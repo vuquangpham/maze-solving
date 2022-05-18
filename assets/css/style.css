@@ -1,0 +1,69 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 0 0;
+}
+
+.box {
+  border: 1px solid rgb(189, 186, 186);
+  transition: all 0.2s;
+}
+
+.box.obstacle {
+  background-color: #ccc;
+  animation: showUp 0.3s linear backwards;
+}
+
+.box.start {
+  background-color: rgb(34, 70, 187);
+}
+
+.box.goal {
+  background-color: rgb(202, 41, 41);
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-0.3rem);
+}
+
+.btn:active {
+  transform: translateY(-0.2rem);
+}
+@keyframes showUp {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
