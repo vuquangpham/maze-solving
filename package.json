@@ -2,11 +2,15 @@
   "name": "maze-solving",
   "version": "1.0.0",
   "description": "Adopting classical AI algorithms to solve the shortest path",
-  "main": "index.js",
+  "default": "index.html",
+  "homepage": "https://vuquangpham.github.io/maze-solving",
   "scripts": {
     "test": "jest",
     "start": "parcel index.html",
-    "local": "http-server"
+    "build": "parcel build index.html --dist-dir ./dist",
+    "local": "http-server",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Vu Pham",
   "license": "ISC",

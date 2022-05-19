@@ -26,6 +26,8 @@ const init = () => {
   let lastBox = null;
   let timer = 0;
 
+  console.log(svg);
+
   svg.height = window.innerHeight;
   svg.width = window.innerWidth;
 
