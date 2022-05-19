@@ -19,8 +19,8 @@ export default class Queue {
       this.size++;
       return;
     }
-    newNode.next = this.head;
-    this.head = newNode;
+    this.tail.next = newNode;
+    this.tail = newNode;
     this.size++;
   }
 
@@ -37,12 +37,6 @@ export default class Queue {
   find(element) {
     let node = this.head;
     while (node) {
-      console.log(
-        "node element == elemnt",
-        node.element,
-        element,
-        node.element === element
-      );
       if (node.element === element) return true;
       node = node.next;
     }

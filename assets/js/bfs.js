@@ -11,7 +11,6 @@ export const breadth_first_search = (problem, start, end) => {
 
   const frontier = new Queue();
   frontier.enqueue(start_node);
-  console.log("first frontier", frontier);
   // const frontier = [start_node];
   const explored = new Set();
   let path = [];
@@ -19,8 +18,8 @@ export const breadth_first_search = (problem, start, end) => {
   if (problem.goal_test(start_node.position)) return start_node;
 
   while (frontier.size > 0) {
+    console.log(frontier.size);
     let node = frontier.dequeue();
-    console.log("dequeue", node);
     explored.add(node.position);
 
     const children = node.expand(problem);
@@ -28,14 +27,11 @@ export const breadth_first_search = (problem, start, end) => {
 
     for (const child of children) {
       const isExplored = isExistInArray([...explored], child.position);
-      // const isFrontier = frontier.some((node) => node === child);
       const isFrontier = frontier.find(child);
-      console.log("is Fr", isFrontier);
 
       if (!isExplored && !isFrontier) {
-        if (problem.goal_test(child.position)) {
-          return [child.solution(), path];
-        }
+        if (problem.goal_test(child.position)) return [child.solution(), path];
+
         frontier.enqueue(child);
       }
     }

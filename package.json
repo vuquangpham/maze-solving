@@ -7,10 +7,7 @@
   "scripts": {
     "test": "jest",
     "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist",
-    "local": "http-server",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Vu Pham",
   "license": "ISC",

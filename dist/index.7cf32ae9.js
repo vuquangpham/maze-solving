@@ -1014,14 +1014,13 @@ const breadth_first_search = (problem, start, end)=>{
     end_node.g = end_node.h = end_node.f = 0;
     const frontier = new _queueDefault.default();
     frontier.enqueue(start_node);
-    console.log("first frontier", frontier);
     // const frontier = [start_node];
     const explored = new Set();
     let path = [];
     if (problem.goal_test(start_node.position)) return start_node;
     while(frontier.size > 0){
+        console.log(frontier.size);
         let node1 = frontier.dequeue();
-        console.log("dequeue", node1);
         explored.add(node1.position);
         const children = node1.expand(problem);
         children.forEach((node)=>path.push(node.position)
@@ -1030,9 +1029,7 @@ const breadth_first_search = (problem, start, end)=>{
             const isExplored = _utility.isExistInArray([
                 ...explored
             ], child.position);
-            // const isFrontier = frontier.some((node) => node === child);
             const isFrontier = frontier.find(child);
-            console.log("is Fr", isFrontier);
             if (!isExplored && !isFrontier) {
                 if (problem.goal_test(child.position)) return [
                     child.solution(),
@@ -1069,8 +1066,8 @@ class Queue {
             this.size++;
             return;
         }
-        newNode.next = this.head;
-        this.head = newNode;
+        this.tail.next = newNode;
+        this.tail = newNode;
         this.size++;
     }
     dequeue() {
@@ -1084,7 +1081,6 @@ class Queue {
     find(element) {
         let node = this.head;
         while(node){
-            console.log("node element == elemnt", node.element, element, node.element === element);
             if (node.element === element) return true;
             node = node.next;
         }
