@@ -28,9 +28,6 @@ const init = () => {
 
   console.log(svg);
 
-  svg.height = window.innerHeight;
-  svg.width = window.innerWidth;
-
   window.addEventListener("resize", function (e) {
     if (timer) clearTimeout(timer);
     timer = setTimeout(function (e) {
@@ -47,7 +44,7 @@ const init = () => {
 
   searchBtn.addEventListener("click", function () {
     maze.resetPath(svg);
-    let result;
+    let result, expand;
 
     const searchAlgorithm = form.elements["searching"].value;
 

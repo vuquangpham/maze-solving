@@ -38,7 +38,7 @@ export const astar = (problem, start, end) => {
       return [current_node.solution(), path];
     }
 
-    children = current_node.expand(problem);
+    const children = current_node.expand(problem);
     children.forEach((node) => path.push(node.position));
 
     for (const child of children) {
