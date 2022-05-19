@@ -18,7 +18,40 @@
     <script src="./assets/js/app.js" defer type="module"></script>
   </head>
   <body>
+    <!-- <canvas id="myCanvas"> </canvas> -->
     <div class="container"></div>
-    <button class="btn">Searching</button>
+    <svg height="100%" width="100%"></svg>
+    <div class="panel">
+      <div class="btn-group">
+        <button class="btn btn--search">Searching</button>
+        <button class="btn btn--clear">Clear</button>
+        <button class="btn btn--reset">Reset</button>
+      </div>
+      <form id="selection">
+        <label
+          ><input type="radio" name="searching" value="bfs" /><span
+            >BFS</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="searching" value="dfs" /><span
+            >DFS</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="searching" value="astar" checked /><span
+            >Astar</span
+          ></label
+        >
+        <label
+          ><input
+            checked
+            type="checkbox"
+            name="diagonal"
+            value="diagonal"
+          /><span>Allow Diagonal</span></label
+        >
+      </form>
+    </div>
   </body>
 </html>

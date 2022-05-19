@@ -17,7 +17,7 @@ export default class Node {
 
   expand(problem) {
     const children = [];
-    for (const action of problem.actions()) {
+    for (const action of problem.actions(this)) {
       const child = this.child_node(problem, action);
       children.push(child);
     }
@@ -27,7 +27,7 @@ export default class Node {
 
   child_node(problem, action) {
     const new_position = problem.result(this.position, action);
-    return new Node(null, new_position);
+    return new Node(this, new_position);
   }
 
   solution() {

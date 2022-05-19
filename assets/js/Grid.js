@@ -1,16 +1,18 @@
 import Box from "./Box";
+import { isClassIncluded } from "./utility";
 
 export default class Grid {
   isMouseDown = false;
   currentCursorBox = null;
 
-  constructor(parentElm, width, height) {
+  constructor(parentElm, width, height, svg) {
     this.parentElm = parentElm;
     this.width = width;
     this.height = height;
     this.maze = [];
     this.row = 0;
     this.col = 0;
+    this.svg = svg;
   }
 
   repeat(quantity) {
@@ -24,13 +26,96 @@ export default class Grid {
   drawBox(box, classList) {
     box.removeAttribute("class");
     box.classList.add("box", ...classList);
+    if (classList.includes("start") || classList.includes("goal"))
+      box.setAttribute("draggable", "true");
+  }
+
+  resetPath() {
+    document.querySelectorAll(".expand").forEach((node) => {
+      node.classList.remove("expand");
+    });
+    this.svg.innerHTML = "";
+  }
+
+  resetObstacle() {
+    document.querySelectorAll(".obstacle").forEach((node) => {
+      const row = +node.dataset.row;
+      const col = +node.dataset.col;
+      this.maze[row][col] = 0;
+      node.classList.remove("obstacle");
+    });
+
+    this.resetPath();
+  }
+
+  drawLine(path) {
+    let pathStr = "";
+    let isFirst = true;
+
+    for (const position of path) {
+      const row = position[0];
+      const col = position[1];
+
+      const box = document.querySelector(
+        `div[data-row="${row}"][data-col="${col}"]`
+      );
+
+      // X --> distance left --> pos, Y --> top --> pos
+      const [x, y] = Box.generateMiddlePoint(box);
+
+      if (isFirst) {
+        pathStr += `M ${x},${y}`;
+        isFirst = false;
+        continue;
+      }
+      pathStr += ` L ${x}, ${y}`;
+    }
+    return pathStr;
+  }
+
+  moveBox(source, des) {
+    const rowDes = des.dataset.row;
+    const colDes = des.dataset.col;
+
+    const rowSource = source.dataset.row;
+    const colSource = source.dataset.col;
+
+    const afterDes = des.nextElementSibling;
+    const parent = des.parentNode;
+    source.replaceWith(des);
+    parent.insertBefore(source, afterDes);
+
+    source.dataset.row = rowDes;
+    source.dataset.col = colDes;
+    des.dataset.row = rowSource;
+    des.dataset.col = colSource;
+  }
+
+  drawPath(path) {
+    for (const position of path) {
+      const row = position[0];
+      const col = position[1];
+
+      const box = document.querySelector(
+        `div[data-row="${row}"][data-col="${col}"]`
+      );
+
+      if (box.classList.contains("start") || box.classList.contains("goal"))
+        continue;
+      this.drawBox(box, ["expand"]);
+    }
+  }
+
+  generateState() {
+    const row = Math.round(Math.random() * this.row);
+    const col = Math.round(Math.random() * this.row);
+
+    return [row, col];
   }
 
   createInitialState(start, goal) {
     const [startRow, startCol] = start;
     const [endRow, endCol] = goal;
-
-    console.log(startRow, startCol);
 
     const startBox = document.querySelector(
       `div[data-row="${startRow}"][data-col="${startCol}"]`
@@ -66,8 +151,6 @@ export default class Grid {
     const browserWidth = window.innerWidth;
     const browserHeight = window.innerHeight;
 
-    console.log(`${browserWidth}:${browserHeight}`);
-
     this.col = Math.ceil(browserWidth / this.width);
     this.row = Math.ceil(browserHeight / this.height);
 
@@ -75,7 +158,14 @@ export default class Grid {
       gridTemplateColumns: `repeat(${this.col}, 1fr)`,
       gridTemplateRows: `repeat(${this.row}, 1fr)`,
     });
+
     this.createBox();
+
+    let start = this.generateState();
+    let goal = this.generateState();
+    this.createInitialState(start, goal);
+
+    return [start, goal];
   }
 
   updateMaze(row, col) {
@@ -102,6 +192,8 @@ export default class Grid {
     this.updateMaze(row, col);
 
     currentBox.classList.toggle("obstacle");
+
+    this.resetPath();
   }
 
   handleMouseUp(e) {

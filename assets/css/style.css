@@ -10,10 +10,23 @@ html {
   font-size: 62.5%;
   font-family: "Montserrat", sans-serif;
 }
+@media only screen and (max-width: 43.75em) {
+  html {
+    font-size: 50%;
+  }
+}
 
 body {
   box-sizing: border-box;
   overflow: hidden;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
 }
 
 .container {
@@ -41,10 +54,74 @@ body {
   background-color: rgb(202, 41, 41);
 }
 
+.box.expand {
+  background-color: rgb(88, 243, 114);
+}
+
+.panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.btn-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+#selection {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 1.2rem;
+}
+
+#selection label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgb(238, 238, 238);
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  cursor: pointer;
+}
+
 .btn {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 2px solid rgb(34, 70, 187);
+  padding: 1.5rem 2rem;
+  font-family: "Montserrat";
+  font-size: 1.4rem;
+  font-weight: 600;
+
+  transition: all 0.2s;
+}
+
+.btn--search {
+}
+
+.btn--clear {
+}
+
+.btn:hover {
+  background-color: rgb(34, 70, 187);
+  color: #fff;
+}
+
+.shadow {
+  box-shadow: 6px 15px 29px 6px rgba(0, 0, 0, 0.25);
 }
 
 .btn:hover {
@@ -54,6 +131,7 @@ body {
 .btn:active {
   transform: translateY(-0.2rem);
 }
+
 @keyframes showUp {
   0% {
     transform: scale(1);
